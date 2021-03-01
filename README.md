@@ -1,2 +1,4 @@
-# Water-molecules---A-text-editor
-This my text editor I created with python
+# Water-molecules
+Water molecules is a text editor created with python. It has all basic functions.
+
+**New functions will be added**
