@@ -9,7 +9,7 @@ root = Tk()
 root.title("Water Molecules")
 root.config(bg="#edf6f9")
 
-root.iconbitmap("water-molecules.ico")
+root.iconbitmap("C:/Users/ayaan/PycharmProjects/Text editor/Water-molecules---A-text-editor/water-molecules.ico")
 
 # Global variables
 color_theme = StringVar()
@@ -27,7 +27,7 @@ final_dir = None
 def set_theme(mode):
     if mode == "dark":
         text.config(selectbackground="white", selectforeground="Sea green", bg="#2B2B2B", fg="light cyan")
-        root.config(bg="##313335")
+        root.config(bg="#313335")
     else:
         text.config(selectbackground="Black", selectforeground="White", bg="white", fg="Black")
         root.config(bg="#F2F2F2")
@@ -111,8 +111,8 @@ def save_as():
         os.chdir(final_dir)
 
         # Makes the file
-        f = open(filename, "w")
-        f.close()
+        with open(filename, "w") as f:
+            f.write(text.get(1.0, END))
 
         # Updates status bar
         status_bar.config(bd=4, text=f"{filename} has been created and saved successfully")
