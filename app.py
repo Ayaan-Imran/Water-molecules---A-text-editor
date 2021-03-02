@@ -58,7 +58,7 @@ def new():
     saved_or_not = False
 
 
-def open_file():
+def open_file(event):
     global saved_or_not, filename, current_dir, final_dir
     current_dir = os.getcwd()
 
@@ -122,7 +122,7 @@ def save_as():
         os.chdir(current_dir)
 
 
-def save():
+def save(event):
     global saved_or_not
 
     # Checks if the file is saved or not
@@ -166,9 +166,9 @@ menu = Menu(root, font=("Helvetica", 14))
 
 file_sub_menu = Menu(menu, tearoff=0, font=("Helvetica", 12), bg="white smoke")
 menu.add_cascade(label="File", menu=file_sub_menu)
-file_sub_menu.add_command(label="Open", command=open_file)
-file_sub_menu.add_command(label="Save", command=save)
-file_sub_menu.add_command(label="Save as", command=save_as)
+file_sub_menu.add_command(label="Open         (Ctrl+p)", command=lambda: open_file())
+file_sub_menu.add_command(label="Save         (Ctrl+s)", command=lambda: save())
+file_sub_menu.add_command(label="Save as      (Ctrl+s)", command=save_as)
 file_sub_menu.add_separator()
 file_sub_menu.add_command(label="Update file", command=check_update_for_file)
 file_sub_menu.add_command(label="New", command=new)
@@ -189,5 +189,9 @@ root.config(menu=menu)
 # Status bar
 status_bar = Label(root, text="Ready        ", padx=5, pady=5, anchor=E, font=("Tw cen mt", 13))
 status_bar.pack(fill=X)
+
+# Keyboard bindings
+root.bind("<Control-s>", save)
+root.bind("<Control-p>", open_file)
 
 root.mainloop()
