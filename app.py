@@ -32,11 +32,13 @@ def set_theme(mode):
         text.config(selectbackground="Black", selectforeground="White", bg="white", fg="Black")
         root.config(bg="#F2F2F2")
 
+
 def copy():
     # Checks if we selected any text
     if text.selection_get():
         # Copies it in the clipboard
         pc.copy(str(text.selection_get()))
+
 
 def paste():
     # Gets keyboard cursor position
@@ -44,9 +46,11 @@ def paste():
 
     text.insert(position, pc.paste())
 
+
 def cut():
     copy()
     text.delete("sel.first", "sel.last")
+
 
 def new():
     text.delete(1.0, END)
@@ -168,16 +172,16 @@ file_sub_menu = Menu(menu, tearoff=0, font=("Helvetica", 12), bg="white smoke")
 menu.add_cascade(label="File", menu=file_sub_menu)
 file_sub_menu.add_command(label="Open         (Ctrl+p)", command=lambda: open_file())
 file_sub_menu.add_command(label="Save         (Ctrl+s)", command=lambda: save())
-file_sub_menu.add_command(label="Save as      (Ctrl+s)", command=save_as)
+file_sub_menu.add_command(label="Save as     (Ctrl+s)", command=save_as)
 file_sub_menu.add_separator()
 file_sub_menu.add_command(label="Update file", command=check_update_for_file)
 file_sub_menu.add_command(label="New", command=new)
 
 edit_sub_menu = Menu(menu, tearoff=0, font=("Helvetica", 12), bg="white smoke")
 menu.add_cascade(label="Edit", menu=edit_sub_menu)
-edit_sub_menu.add_command(label="Copy", command=copy)
-edit_sub_menu.add_command(label="Paste", command=paste)
-edit_sub_menu.add_command(label="Cut", command=cut)
+edit_sub_menu.add_command(label="Copy         (Ctrl+c)", command=copy)
+edit_sub_menu.add_command(label="Paste        (Ctrl+v)", command=paste)
+edit_sub_menu.add_command(label="Cut          (Ctrl+x)", command=cut)
 
 theme_sub_menu = Menu(menu, tearoff=0, font=("Helvetica", 12), bg="white smoke")
 menu.add_cascade(label="Themes", menu=theme_sub_menu)
