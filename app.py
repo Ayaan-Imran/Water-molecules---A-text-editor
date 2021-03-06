@@ -1,6 +1,7 @@
 import os
 from tkinter import *
 from tkinter import filedialog
+from tkinter import messagebox
 import pyperclip as pc
 
 root = Tk()
@@ -21,7 +22,6 @@ saved_or_not = False
 filename = None
 current_dir = None
 final_dir = None
-
 
 # Functions
 def set_theme(mode):
@@ -60,35 +60,6 @@ def new():
 
     global saved_or_not
     saved_or_not = False
-
-
-def open_file(event):
-    global saved_or_not, filename, current_dir, final_dir
-    current_dir = os.getcwd()
-
-    # Ask filedialog box
-    file = filedialog.askopenfilename(title="Open file...", filetypes=file_types, defaultextension=file_types)
-
-    # Permission to TRUE
-    saved_or_not = True
-
-    # Checks if file exists
-    if file:
-        filename = file.split("/")[-1]
-
-        desired_directory = file.split("/")
-        desired_directory = desired_directory[:-1]
-        final_dir = ""
-        for i in desired_directory:
-            final_dir += f"{i}/"
-
-        with open(file, "r") as f:
-            text.insert(1.0, f.read())
-
-        # Updates status bar
-        status_bar.config(bd=4, text=f"{filename} has opened successfully")
-        root.title(f"{filename} - Water molecule")
-
 
 def save_as():
     global saved_or_not, final_dir, filename, current_dir
@@ -150,6 +121,35 @@ def save(event):
     else:
         save_as()
 
+def open_file(event):
+    global filename, current_dir, final_dir, saved_or_not
+    current_dir = os.getcwd()
+
+    # Ask filedialog box
+    file = filedialog.askopenfilename(title="Open file...", filetypes=file_types, defaultextension=file_types)
+
+    # Permission to TRUE
+    saved_or_not = True
+
+    # Checks if file exists
+    if file and (final_dir == None):
+        filename = file.split("/")[-1]
+
+        # Gets directory
+        desired_directory = file.split("/")
+        desired_directory = desired_directory[:-1]
+        final_dir = ""
+        for i in desired_directory:
+            final_dir += f"{i}/"
+
+        # Inserts the file text
+        with open(file, "r") as f:
+            text.delete(1.0, END)
+            text.insert(1.0, f.read())
+
+        # Updates status bar
+        status_bar.config(bd=4, text=f"{filename} has opened successfully")
+        root.title(f"{filename} - Water molecule")
 
 def check_update_for_file():
     os.chdir(final_dir)
@@ -158,7 +158,6 @@ def check_update_for_file():
         text.delete(1.0, END)
 
         text.insert(1.0, f.read())
-
 
 # Typing area
 text = Text(root, width=108, height=30, selectbackground="Black", selectforeground="White", font=("Consolas", 17),
@@ -170,8 +169,8 @@ menu = Menu(root, font=("Helvetica", 14))
 
 file_sub_menu = Menu(menu, tearoff=0, font=("Helvetica", 12), bg="white smoke")
 menu.add_cascade(label="File", menu=file_sub_menu)
-file_sub_menu.add_command(label="Open         (Ctrl+p)", command=lambda: open_file())
-file_sub_menu.add_command(label="Save         (Ctrl+s)", command=lambda: save())
+file_sub_menu.add_command(label="Open         (Ctrl+p)", command=lambda: open_file(1))
+file_sub_menu.add_command(label="Save         (Ctrl+s)", command=lambda: save(1))
 file_sub_menu.add_command(label="Save as     (Ctrl+s)", command=save_as)
 file_sub_menu.add_separator()
 file_sub_menu.add_command(label="Update file", command=check_update_for_file)
